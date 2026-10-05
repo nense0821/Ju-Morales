@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel administrativo | JÚ MORALES</title>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="styles.css"
+    >
+
+    <style>
+
+        body {
+            min-height: 100vh;
+            background: #f4f0e9;
+        }
+
+        /* =========================
+           ADMIN HEADER
+        ========================= */
+
+        .admin-header {
+            height: 82px;
+            padding: 0 5vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #171614;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-brand strong {
+            font-family: var(--serif);
+            font-size: 30px;
+            font-weight: 400;
+        }
+
+        .admin-brand span {
+            color: #8d8982;
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .admin-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .admin-user {
+            text-align: right;
+        }
+
+        .admin-user small {
+            display: block;
+            color: #77736d;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .admin-user span {
+            display: block;
+            color: #ddd8d0;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .logout-button {
+            padding: 10px 15px;
+            border: 1px solid #4a4742;
+            background: transparent;
+            color: white;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logout-button:hover {
+            background: white;
+            color: #171614;
+        }
+
+
+        /* =========================
+           ADMIN CONTAINER
+        ========================= */
+
+        .admin-container {
+            width: min(1400px, 90%);
+            margin: 0 auto;
+            padding: 55px 0 100px;
+        }
+
+        .admin-heading {
+            margin-bottom: 40px;
+        }
+
+        .admin-heading .section-label {
+            margin-bottom: 15px;
+        }
+
+        .admin-heading h1 {
+            font-family: var(--serif);
+            font-size: clamp(42px, 5vw, 65px);
+            font-weight: 400;
+            line-height: 1;
+            margin-bottom: 15px;
+        }
+
+        .admin-heading p {
+            color: #77736d;
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           KPI
+        ========================= */
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .kpi-card {
+            background: #fffdf9;
+            border: 1px solid #d9d2c8;
+            padding: 28px;
+        }
+
+        .kpi-card span {
+            display: block;
+            color: #77736d;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card strong {
+            display: block;
+            font-family: var(--serif);
+            font-size: 34px;
+            font-weight: 400;
+        }
+
+        .kpi-card small {
+            display: block;
+            color: #9b968e;
+            font-size: 10px;
+            margin-top: 7px;
+        }
+
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .admin-section {
+            background: #fffdf9;
+            border: 1px solid #d9d2c8;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .admin-section-header {
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #d9d2c8;
+        }
+
+        .admin-section-header h2 {
+            font-family: var(--serif);
+            font-size: 27px;
+            font-weight: 400;
+        }
+
+        .refresh-button {
+            border: 1px solid #d9d2c8;
+            background: transparent;
+            padding: 9px 13px;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .refresh-button:hover {
+            background: #171614;
+            color: white;
+        }
+
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        .admin-table th {
+            padding: 15px 20px;
+            text-align: left;
+            color: #77736d;
+            font-size: 8px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-weight: 500;
+            border-bottom: 1px solid #d9d2c8;
+        }
+
+        .admin-table td {
+            padding: 18px 20px;
+            border-bottom: 1px solid #eee9e1;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        .admin-table tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .admin-table tr:hover td {
+            background: #faf7f2;
+        }
+
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-flex;
+            padding: 6px 9px;
+            font-size: 8px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            border: 1px solid #d9d2c8;
+        }
+
+        .status-pending {
+            background: #f4ead2;
+            color: #8a6d2f;
+        }
+
+        .status-confirmed {
+            background: #e3ebdd;
+            color: #506844;
+        }
+
+        .status-completed {
+            background: #dedde8;
+            color: #56536d;
+        }
+
+        .status-cancelled {
+            background: #f0dede;
+            color: #8d5656;
+        }
+
+        .status-no_show {
+            background: #e8e4df;
+            color: #6c6760;
+        }
+
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
+        .table-actions {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .small-button {
+            padding: 7px 9px;
+            border: 1px solid #d9d2c8;
+            background: transparent;
+            font-size: 8px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .small-button:hover {
+            background: #171614;
+            color: white;
+        }
+
+        .small-button.danger:hover {
+            background: #9d5555;
+            border-color: #9d5555;
+        }
+
+
+        /* =========================
+           FORMS
+        ========================= */
+
+        .admin-form {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .admin-form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .admin-form-group label {
+            color: #77736d;
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .admin-form-group input,
+        .admin-form-group select,
+        .admin-form-group textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #d9d2c8;
+            background: #f8f5ef;
+            color: #171614;
+            outline: none;
+            border-radius: 0;
+        }
+
+        .admin-form-group input:focus,
+        .admin-form-group select:focus,
+        .admin-form-group textarea:focus {
+            border-color: #171614;
+        }
+
+        .admin-form-group textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            grid-column: 1 / -1;
+            padding: 15px;
+            border: 1px solid #171614;
+            background: #171614;
+            color: white;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .form-submit:hover {
+            background: transparent;
+            color: #171614;
+        }
+
+        .form-submit:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .admin-message {
+            grid-column: 1 / -1;
+            min-height: 20px;
+            font-size: 11px;
+            text-align: center;
+        }
+
+
+        /* =========================
+           TWO COLUMNS
+        ========================= */
+
+        .admin-two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .admin-two-columns .admin-section {
+            margin-bottom: 0;
+        }
+
+
+        /* =========================
+           SERVICES LIST
+        ========================= */
+
+        .service-admin-list {
+            padding: 0;
+        }
+
+        .service-admin-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 25px;
+            border-bottom: 1px solid #eee9e1;
+        }
+
+        .service-admin-item:last-child {
+            border-bottom: 0;
+        }
+
+        .service-admin-info h3 {
+            font-family: var(--serif);
+            font-size: 19px;
+            font-weight: 400;
+        }
+
+        .service-admin-info p {
+            color: #77736d;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .service-admin-price {
+            text-align: right;
+        }
+
+        .service-admin-price strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .service-admin-price small {
+            color: #77736d;
+            font-size: 9px;
+        }
+
+
+        /* =========================
+           CLIENTS
+        ========================= */
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #d9d2c8;
+        }
+
+        .client-card {
+            background: #fffdf9;
+            padding: 22px;
+        }
+
+        .client-card h3 {
+            font-family: var(--serif);
+            font-size: 21px;
+            font-weight: 400;
+        }
+
+        .client-card p {
+            color: #77736d;
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .client-meta {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #eee9e1;
+            color: #77736d;
+            font-size: 9px;
+        }
+
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-state {
+            padding: 45px 25px;
+            text-align: center;
+            color: #77736d;
+            font-size: 12px;
+        }
+
+
+        /* =========================
+           TOAST
+        ========================= */
+
+        .admin-toast {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            max-width: 350px;
+            padding: 15px 18px;
+            background: #171614;
+            color: white;
+            font-size: 11px;
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(130px);
+            opacity: 0;
+            transition: 0.3s ease;
+            z-index: 999;
+        }
+
+        .admin-toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .admin-two-columns {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .admin-header {
+                padding: 0 20px;
+            }
+
+            .admin-user {
+                display: none;
+            }
+
+            .admin-container {
+                width: calc(100% - 30px);
+                padding-top: 35px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-form {
+                grid-template-columns: 1fr;
+                padding: 22px;
+            }
+
+            .admin-form-group.full {
+                grid-column: auto;
+            }
+
+            .form-submit {
+                grid-column: auto;
+            }
+
+            .clients-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-section-header {
+                padding: 20px;
+            }
+
+            .admin-section-header h2 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <header class="admin-header">
+
+        <div class="admin-brand">
+
+            <strong>JÚ</strong>
+
+            <span>
+                Panel administrativo
+            </span>
+
+        </div>
+
+
+        <div class="admin-actions">
+
+            <div class="admin-user">
+
+                <small>
+                    Sesión activa
+                </small>
+
+                <span id="ownerEmail">
+                    Cargando...
+                </span>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutButton"
+                class="logout-button"
+            >
+                Cerrar sesión
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================
+         CONTENIDO
+    ====================================== -->
+
+    <main class="admin-container">
+
+
+        <!-- =================================
+             TÍTULO
+        ================================== -->
+
+        <section class="admin-heading">
+
+            <div class="section-label">
+                CONTROL CENTER
+            </div>
+
+            <h1>
+                Buenos días.
+            </h1>
+
+            <p>
+                Administra tus citas, clientes,
+                servicios y finanzas desde un solo lugar.
+            </p>
+
+        </section>
+
+
+        <!-- =================================
+             KPIs
+        ================================== -->
+
+        <section class="kpi-grid">
+
+
+            <article class="kpi-card">
+
+                <span>
+                    Citas pendientes
+                </span>
+
+                <strong id="kpiPending">
+                    0
+                </strong>
+
+                <small>
+                    Solicitudes por revisar
+                </small>
+
+            </article>
+
+
+            <article class="kpi-card">
+
+                <span>
+                    Citas confirmadas
+                </span>
+
+                <strong id="kpiConfirmed">
+                    0
+                </strong>
+
+                <small>
+                    Reservas confirmadas
+                </small>
+
+            </article>
+
+
+            <article class="kpi-card">
+
+                <span>
+                    Ingresos
+                </span>
+
+                <strong id="kpiIncome">
+                    $0
+                </strong>
+
+                <small>
+                    Servicios completados
+                </small>
+
+            </article>
+
+
+            <article class="kpi-card">
+
+                <span>
+                    Ganancia
+                </span>
+
+                <strong id="kpiProfit">
+                    $0
+                </strong>
+
+                <small>
+                    Ingresos menos gastos
+                </small>
+
+            </article>
+
+        </section>
+
+
+        <!-- =================================
+             CITAS
+        ================================== -->
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <h2>
+                    Citas
+                </h2>
+
+                <button
+                    type="button"
+                    id="refreshAppointments"
+                    class="refresh-button"
+                >
+                    Actualizar
+                </button>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table class="admin-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Cliente</th>
+
+                            <th>Servicio</th>
+
+                            <th>Fecha</th>
+
+                            <th>Hora</th>
+
+                            <th>Precio</th>
+
+                            <th>Estado</th>
+
+                            <th>Acción</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="appointmentsBody">
+
+                        <tr>
+
+                            <td
+                                colspan="7"
+                                class="empty-state"
+                            >
+                                Cargando citas...
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             FINANZAS + NUEVO GASTO
+        ================================== -->
+
+        <div class="admin-two-columns">
+
+
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <h2>
+                        Registrar gasto
+                    </h2>
+
+                </div>
+
+
+                <form
+                    id="expenseForm"
+                    class="admin-form"
+                >
+
+                    <div class="admin-form-group">
+
+                        <label for="expenseDescription">
+                            Descripción
+                        </label>
+
+                        <input
+                            type="text"
+                            id="expenseDescription"
+                            placeholder="Ej. Productos"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="expenseCategory">
+                            Categoría
+                        </label>
+
+                        <input
+                            type="text"
+                            id="expenseCategory"
+                            placeholder="Ej. Insumos"
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="expenseAmount">
+                            Valor
+                        </label>
+
+                        <input
+                            type="number"
+                            id="expenseAmount"
+                            min="0"
+                            step="100"
+                            placeholder="50000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="expenseDate">
+                            Fecha
+                        </label>
+
+                        <input
+                            type="date"
+                            id="expenseDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="expenseNotes">
+                            Notas
+                        </label>
+
+                        <textarea
+                            id="expenseNotes"
+                            placeholder="Detalles del gasto..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="expenseSubmit"
+                        class="form-submit"
+                    >
+                        Registrar gasto
+                    </button>
+
+
+                    <p
+                        id="expenseMessage"
+                        class="admin-message"
+                    ></p>
+
+                </form>
+
+            </section>
+
+
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <h2>
+                        Resumen financiero
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="kpi-grid"
+                    style="margin: 0; padding: 25px;"
+                >
+
+                    <article class="kpi-card">
+
+                        <span>
+                            Ingresos
+                        </span>
+
+                        <strong id="financeIncome">
+                            $0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="kpi-card">
+
+                        <span>
+                            Gastos
+                        </span>
+
+                        <strong id="financeExpenses">
+                            $0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="kpi-card">
+
+                        <span>
+                            Ganancia
+                        </span>
+
+                        <strong id="financeProfit">
+                            $0
+                        </strong>
+
+                    </article>
+
+
+                    <article class="kpi-card">
+
+                        <span>
+                            Clientes
+                        </span>
+
+                        <strong id="financeClients">
+                            0
+                        </strong>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================
+             SERVICIOS
+        ================================== -->
+
+        <div
+            class="admin-two-columns"
+            style="margin-top: 30px;"
+        >
+
+
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <h2>
+                        Nuevo servicio
+                    </h2>
+
+                </div>
+
+
+                <form
+                    id="serviceForm"
+                    class="admin-form"
+                >
+
+                    <div class="admin-form-group full">
+
+                        <label for="serviceName">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="serviceName"
+                            placeholder="Ej. Manicure semipermanente"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="servicePrice">
+                            Precio
+                        </label>
+
+                        <input
+                            type="number"
+                            id="servicePrice"
+                            min="0"
+                            step="100"
+                            placeholder="50000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group">
+
+                        <label for="serviceDuration">
+                            Duración
+                        </label>
+
+                        <input
+                            type="number"
+                            id="serviceDuration"
+                            min="1"
+                            placeholder="60"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="admin-form-group full">
+
+                        <label for="serviceDescription">
+                            Descripción
+                        </label>
+
+                        <textarea
+                            id="serviceDescription"
+                            placeholder="Describe el servicio..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- IMAGEN DEL SERVICIO -->
+
+                    <div class="admin-form-group full">
+
+                        <label for="serviceImage">
+                            Imagen del servicio
+                        </label>
+
+                        <input
+                            type="file"
+                            id="serviceImage"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                        <div
+                            id="serviceImagePreview"
+                            class="image-preview"
+                            style="display: none;"
+                        >
+
+                            <img
+                                id="serviceImagePreviewImg"
+                                src=""
+                                alt="Vista previa del servicio"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="serviceSubmit"
+                        class="form-submit"
+                    >
+                        Crear servicio
+                    </button>
+
+
+                    <p
+                        id="serviceMessage"
+                        class="admin-message"
+                    ></p>
+
+                </form>
+
+            </section>
+
+
+            <section class="admin-section">
+
+                <div class="admin-section-header">
+
+                    <h2>
+                        Servicios
+                    </h2>
+
+                </div>
+
+
+                <div
+                    id="servicesAdminList"
+                    class="service-admin-list"
+                >
+
+                    <div class="empty-state">
+                        Cargando servicios...
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =================================
+             GALERÍA DE UÑAS
+        ================================== -->
+
+        <section
+            class="admin-section"
+            style="margin-top: 30px;"
+        >
+
+            <div class="admin-section-header">
+
+                <div>
+
+                    <h2>
+                        Galería de uñas
+                    </h2>
+
+                    <p
+                        style="
+                            color:#77736d;
+                            font-size:10px;
+                            margin-top:5px;
+                        "
+                    >
+                        Administra las fotografías de tus trabajos.
+                    </p>
+
+                </div>
+
+                <span
+                    id="galleryCount"
+                    style="
+                        color:#77736d;
+                        font-size:10px;
+                    "
+                >
+                    0 trabajos
+                </span>
+
+            </div>
+
+
+            <!-- FORMULARIO PARA SUBIR FOTO -->
+
+            <form
+                id="galleryForm"
+                class="admin-form"
+            >
+
+                <!-- FOTOGRAFÍA -->
+
+                <div class="admin-form-group full">
+
+                    <label for="galleryImage">
+                        Fotografía del trabajo
+                    </label>
+
+                    <input
+                        type="file"
+                        id="galleryImage"
+                        accept="image/jpeg,image/png,image/webp"
+                        required
+                    >
+
+                    <small
+                        style="
+                            color:#77736d;
+                            font-size:9px;
+                            margin-top:7px;
+                        "
+                    >
+                        JPG, PNG o WEBP · Máximo 8 MB
+                    </small>
+
+                </div>
+
+
+                <!-- PREVISUALIZACIÓN -->
+
+                <div
+                    id="galleryPreview"
+                    style="
+                        grid-column:1 / -1;
+                        display:none;
+                    "
+                >
+
+                    <img
+                        id="galleryPreviewImage"
+                        src=""
+                        alt="Vista previa"
+                        style="
+                            width:180px;
+                            height:180px;
+                            object-fit:cover;
+                            display:block;
+                            border:1px solid #d9d2c8;
+                        "
+                    >
+
+                </div>
+
+
+                <!-- NOMBRE -->
+
+                <div class="admin-form-group">
+
+                    <label for="galleryTitle">
+                        Nombre del diseño
+                    </label>
+
+                    <input
+                        type="text"
+                        id="galleryTitle"
+                        placeholder="Ej. French elegante"
+                        maxlength="100"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPCIÓN -->
+
+                <div class="admin-form-group">
+
+                    <label for="galleryDescription">
+                        Descripción
+                    </label>
+
+                    <input
+                        type="text"
+                        id="galleryDescription"
+                        placeholder="Ej. Diseño clásico y elegante"
+                        maxlength="300"
+                    >
+
+                </div>
+
+
+                <!-- =================================
+                     SERVICIO RELACIONADO
+                ================================== -->
+
+                <div class="admin-form-group full">
+
+                    <label for="galleryService">
+                        Servicio relacionado
+                    </label>
+
+                    <select id="galleryService">
+
+                        <option value="">
+                            Sin servicio específico
+                        </option>
+
+                    </select>
+
+                    <small
+                        style="
+                            color:#77736d;
+                            font-size:9px;
+                            margin-top:7px;
+                        "
+                    >
+                        Relaciona este diseño con uno de tus
+                        servicios para que la clienta pueda
+                        reservarlo directamente.
+                    </small>
+
+                </div>
+
+
+                <!-- BOTÓN -->
+
+                <button
+                    type="submit"
+                    id="gallerySubmit"
+                    class="form-submit"
+                >
+                    Subir trabajo
+                </button>
+
+
+                <!-- MENSAJE -->
+
+                <p
+                    id="galleryMessage"
+                    class="admin-message"
+                ></p>
+
+            </form>
+
+
+            <!-- FOTOS SUBIDAS -->
+
+            <div
+                id="galleryAdminGrid"
+                style="
+                    display:grid;
+                    grid-template-columns:repeat(3, 1fr);
+                    gap:1px;
+                    background:#d9d2c8;
+                "
+            >
+
+                <div class="empty-state">
+                    Cargando trabajos...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================
+             CLIENTES
+        ================================== -->
+
+        <section
+            class="admin-section"
+            style="margin-top: 30px;"
+        >
+
+            <div class="admin-section-header">
+
+                <h2>
+                    Clientes
+                </h2>
+
+                <span
+                    id="clientCount"
+                    style="
+                        color:#77736d;
+                        font-size:10px;
+                    "
+                >
+                    0 clientes
+                </span>
+
+            </div>
+
+
+            <div
+                id="clientsGrid"
+                class="clients-grid"
+            >
+
+                <div class="empty-state">
+                    Cargando clientes...
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =====================================
+         TOAST
+    ====================================== -->
+
+    <div
+        id="adminToast"
+        class="admin-toast"
+    ></div>
+
+
+    <!-- =====================================
+         SCRIPTS
+    ====================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script src="admin.js"></script>
+
+
+</body>
+</html>
